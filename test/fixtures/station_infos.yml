@@ -1,0 +1,23 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  sname: MyString
+  total: 1
+  district: MyString
+  lat: 1.5
+  lng: 
+  addr: MyString
+  districtE: MyString
+  nameE: MyString
+  addrE: MyString
+
+two:
+  sname: MyString
+  total: 1
+  district: MyString
+  lat: 1.5
+  lng: 
+  addr: MyString
+  districtE: MyString
+  nameE: MyString
+  addrE: MyString
