@@ -16,7 +16,7 @@
 /tmp/*
 !/log/.keep
 !/tmp/.keep
-/config/*.yml
-/sftp-config.json
+config/*.yml
+sftp-config.json
 # Ignore Byebug command history file.
 .byebug_history
