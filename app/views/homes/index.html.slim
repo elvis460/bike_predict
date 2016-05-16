@@ -1,5 +1,9 @@
-#map data:{locations: @locations}
-
+.map-container
+  input#pac-input.controls type="text"
+  #map data-locations="#{@locations}" data-clicked="#{image_url('clicked_icon1')}" data-unclick="#{image_url('unclick_icon1')}"
+#place_info
+  h1.place_name name
+  p.place_addr addr
 
 script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBDTH7TPR4fuQntx3r-QMDS3dTl-i8Ll4s 
-&signed_in=true&callback=initMap"
+&signed_in=true&libraries=places&callback=initMap"

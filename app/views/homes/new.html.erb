@@ -1,0 +1,33 @@
+<div id="content" style="width:400px;">
+  <div class="header">
+    <h1 style="color:blue;font-size: 20px"><%=@location.sname%> <i class="fa fa-star" style="float:right;font-size: 26px;color:black"></i>
+    </h1>
+    <p style="color:blue"><%=@location.addr%></p>
+  </div>
+  <div class="infos_img">
+    <div class="car_info" style="display: inline-block;">
+      <p style="display:inline-block;font-size: 80px"><i class="fa fa-smile-o"></i></p>
+      <p style="display:inline-block;font-size: 30px">25 <span style="font-size: 20px">/30台<span></p>
+    </div>
+    <div class="weather_info" style="display: inline-block;">
+      <p style="display:inline-block;font-size: 80px"><i class="fa fa-tint"></i></p>
+      <p style="display:inline-block;font-size: 30px">23°C</p>
+    </div>
+    <input type="text" id="range"/>
+
+  </div>
+</div>
+
+<script>
+
+$("#range").ionRangeSlider({
+    grid: true,
+    min: 0,
+    max: 100,
+    from: 5,
+    step: 5
+    // prefix: "$"
+});
+
+
+</script>
