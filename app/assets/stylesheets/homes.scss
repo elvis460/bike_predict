@@ -12,6 +12,7 @@
 @import "compass/css3";
 @import "compass/reset";
 
+//兩個圖案跟資訊
 #place_info{
 	display: none;
 	background-color: #fff;
@@ -34,6 +35,63 @@
 	}
 }
 
+//sidebar
+.sidebar{
+  width: 150px;
+  background-color: #000;
+  position: fixed;
+  top:30%;
+  left:0;
+  transition: left 0.7s;
+  .tag{
+    display: block;
+    text-decoration: none;
+    color: #fff;
+    background-color: red;
+    width: 1em;
+    padding: 0.5em;
+    font-size: 25px;
+    position: absolute;
+    top:30%;
+    right: -2em;
+    border-radius: 0 10% 10% 0;
+  }
+  .links{
+    a{
+      display: block;
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      margin: 20px;
+      overflow: hidden;
+      background-color: #fff;
+    }
+    img{
+      width: 100px; height: 100px;
+    }
+  }
+}
+.hide_bar{
+  left: -150px;
+}
+
+//小筐下半部tab
+ul.tab {
+  overflow: hidden;
+  border: 1px solid #ccc;
+  background-color: #f1f1f1;
+  li {
+    display: inline-block;
+    color: black;
+    text-align: center;
+    padding: 14px 75px;
+    text-decoration: none;
+    transition: 0.3s;
+    font-size: 17px;
+  }
+}
+
+// search box
 .controls {
   margin-top: 10px;
   border: 1px solid transparent;

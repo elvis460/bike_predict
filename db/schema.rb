@@ -11,20 +11,26 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160503090826) do
+ActiveRecord::Schema.define(version: 20160518024550) do
 
-  create_table "station_infos", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
-    t.string   "sname"
-    t.integer  "total"
-    t.string   "district"
-    t.float    "lat",        limit: 24
-    t.float    "lng",        limit: 24
-    t.string   "addr"
-    t.string   "districtE"
-    t.string   "nameE"
-    t.string   "addrE"
-    t.datetime "created_at",            null: false
-    t.datetime "updated_at",            null: false
+  create_table "predict_infos", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.datetime "time"
+    t.integer  "count"
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
+    t.integer  "station_info_id"
+  end
+
+  create_table "station_infos", id: :integer, unsigned: true, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci" do |t|
+    t.string  "sname",     limit: 30,  null: false
+    t.integer "total",                 null: false, unsigned: true
+    t.string  "district",  limit: 10,  null: false
+    t.string  "lat",       limit: 20,  null: false
+    t.string  "lng",       limit: 20,  null: false
+    t.string  "addr",      limit: 150, null: false
+    t.string  "districtE", limit: 20,  null: false
+    t.string  "nameE",     limit: 100, null: false
+    t.string  "addrE",     limit: 150, null: false
   end
 
 end

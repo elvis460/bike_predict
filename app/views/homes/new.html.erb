@@ -14,20 +14,62 @@
       <p style="display:inline-block;font-size: 30px">23°C</p>
     </div>
     <input type="text" id="range"/>
-
+    <ul class="tab">
+      <li><div class="mins">分鐘</div></li>
+      <li><div class="hurs">小時</div></li>
+    </ul>
   </div>
 </div>
 
 <script>
-
 $("#range").ionRangeSlider({
-    grid: true,
+      grid: true,
+      min: 0,
+      max: 100,
+      from: 0,
+      step: 5
+      // prefix: "$"
+  });
+
+$('.mins').on('click',function(){
+  var slider = $("#range").data("ionRangeSlider");
+  slider.update({
     min: 0,
     max: 100,
-    from: 5,
-    step: 5
-    // prefix: "$"
+    from: $("#range").data("from"),
+    step: 5,
+  });
+});
+$('.hurs').on('click',function(){
+  var slider = $("#range").data("ionRangeSlider");
+  slider.update({
+    min: 0,
+    max: 24,
+    from: $("#range").data("from")/60,
+    step: 1
+  });
 });
 
 
 </script>
+<style type="text/css">
+/* Style the list */
+ul.tab {
+    overflow: hidden;
+    border: 1px solid #ccc;
+    background-color: #f1f1f1;
+}
+
+
+/* Style the links inside the list items */
+ul.tab li  {
+    display: inline-block;
+    color: black;
+    text-align: center;
+    padding: 14px 75px;
+    text-decoration: none;
+    transition: 0.3s;
+    font-size: 17px;
+}
+  
+</style>

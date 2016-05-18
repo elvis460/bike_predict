@@ -3,3 +3,8 @@
 # You can use CoffeeScript in this file: http://coffeescript.org/
 
 #= require ion.rangeSlider.min
+#= require markerclusterer
+
+$ ->  
+  $('.tag').click ->
+    $('.sidebar').toggleClass('hide_bar');
