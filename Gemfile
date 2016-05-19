@@ -35,7 +35,7 @@ gem 'rest-client'
 # gem 'capistrano-rails', group: :development
 
 gem 'slim-rails'
-
+gem 'whenever'
 
 
 group :development, :test do

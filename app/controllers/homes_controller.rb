@@ -9,7 +9,7 @@ class HomesController < ApplicationController
 
   def get_info
     station = StationInfo.find(params[:location_id].to_i)
-    render json: {station_info:  station, predict_info: station.predict_infos.where("time > ?",Time.now+8*60*60)}
+    render json: {station_info:  station, predict_info: station.predict_infos.where("time > ?",Time.now+8*60*60) , time_now: Time.now , weather: station.weather}
 
     #require 'rest-client'
     # #遠端拿回的資料
@@ -24,20 +24,30 @@ class HomesController < ApplicationController
   end
 
   def new
-    # require 'rest-client'
-    # response = RestClient.get 'http://chenhon.twbbs.org:7000/data'
-    # predict_json = JSON.parse(response)
-    # PredictInfo.destroy_all
-    # (0..(predict_json.length-1)).each do |index|
-    #     JSON.parse(response)[index]['result'].each do |result|
-    #       PredictInfo.create(station_info_id: index+1,time: result['lastUpdate'] , count: result['available'])
-    #     end
-    # end 
+     require 'rest-client'
+     
+     # response = RestClient.get 'http://chenhon.twbbs.org:7000/weather'
+     # weather = JSON.parse(response)
+     #  weather.each do |result|
+     #    Weather.create(station_info_id: result['sno'],temp: result['Temp'] , status: result['Weather'] ,count: result['available'])
+     #  end
+
+
+    response = RestClient.get 'http://chenhon.twbbs.org:7000/data'
+    predict_json = JSON.parse(response)
+    #render json: predict_json
+    PredictInfo.destroy_all
+    (0..(predict_json.length-1)).each do |index|
+        predict_json[index]['result'].each do |result|
+          PredictInfo.create(station_info_id: index+1,time: result['lastUpdate'] , count: result['available'])
+        end
+    end 
+
 
     # result = JSON.parse(response)[4]['result'].map do |test|
     #      [test['lastUpdate'], test['available']]
     # end
-    #render json: result.select{|time,count| time > Time.now}
-    @location = StationInfo.first
+    # #render json: result.select{|time,count| time > Time.now}
+    #@location = StationInfo.first
   end
 end

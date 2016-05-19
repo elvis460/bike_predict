@@ -4,7 +4,17 @@
 
 #= require ion.rangeSlider.min
 #= require markerclusterer
+#= require moment
 
 $ ->  
-  $('.tag').click ->
-    $('.sidebar').toggleClass('hide_bar');
+  $('#menu').click ->
+    $('.sidebar').toggleClass('show_side_bar');
+    $('#map').toggleClass('shift_map');
+  $("#range").ionRangeSlider({
+    grid: true,
+    min: 0,
+    max: 100,
+    from: 0,
+    step: 5,
+    postfix: " 分鐘後",
+	});

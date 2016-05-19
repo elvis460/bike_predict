@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160518024550) do
+ActiveRecord::Schema.define(version: 20160519085541) do
 
   create_table "predict_infos", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.datetime "time"
@@ -31,6 +31,15 @@ ActiveRecord::Schema.define(version: 20160518024550) do
     t.string  "districtE", limit: 20,  null: false
     t.string  "nameE",     limit: 100, null: false
     t.string  "addrE",     limit: 150, null: false
+  end
+
+  create_table "weathers", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.integer  "temp"
+    t.string   "status"
+    t.integer  "count"
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
+    t.integer  "station_info_id"
   end
 
 end

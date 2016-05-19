@@ -1,9 +1,12 @@
 .map-container
-  input#pac-input.controls type="text"
-  #map data-locations="#{@locations}" data-clicked="#{image_url('clicked_icon1')}" data-unclick="#{image_url('unclick_icon1')}"
-
+  #searchbox
+    spen#menu
+      i.fa.fa-bars
+    input#pac-input.controls type="text"
+  #map data-locations="#{@locations}" data-clicked="#{image_url('clicked_icon1')}" data-unclick="#{image_url('unclick_icon1')}" data-cluster="#{image_url('cluster')}"
+  #image_path data-good="#{image_url('cond_good')}" data-mid="#{image_url('cond_mid')}" data-bad="#{image_url('cond_bad')}" data-blank_sunny="#{image_url('blank_sunny')}" data-mostly_cloudy="#{image_url('mostly_cloudy')}" data-raining="#{image_url('raining')}" data-scatterd_clouds="#{image_url('scatterd_clouds')}" data-thunderstorm="#{image_url('thunderstorm')}" 
 .sidebar
-  .tag  展開
+  //.tag  展開
   .links
     a href=""
       img src="https://pbs.twimg.com/profile_images/638751551457103872/KN-NzuRl.png"
@@ -11,10 +14,41 @@
       img src="https://pbs.twimg.com/profile_images/638751551457103872/KN-NzuRl.png"
     a href=""
       img src="https://pbs.twimg.com/profile_images/638751551457103872/KN-NzuRl.png"
+  .side_tabs
+    .collections.tab_defalut
+      .images
+        = image_tag('star_empty.png', size: "40x40")
+    .nearby.tab_defalut
+      .images
+        = image_tag('nearby.png', size: "40x40")
+
+
+#content
+  .header
+    h1
+      span#location_name location.sname
+      =image_tag('star_empty',size:'50x50',:class => 'star')
+    p#location_addr location.addr
+  .infos_img
+    .bike_info
+      p.bike_img
+        =image_tag('cond_mid',size:'80x80')
+      p.bike_info_content
+        span.avaliable_bike  25
+        span.total_bike  30台
+    .weather_info
+      p.weather_img
+        =image_tag('scatterd_clouds',size:'80x80')
+      p.weather_value 23°C
+    p.datetime =Time.now.strftime('%r')
+    input#range type="text" data-clock="mins"
+    ul.tab
+      li.mins.tabe_active 分鐘
+      li.hurs 小時
 
 #place_info
   h1.place_name name
   p.place_addr addr
 
 script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBDTH7TPR4fuQntx3r-QMDS3dTl-i8Ll4s 
-&signed_in=true&libraries=places&callback=initMap"
+&libraries=places&callback=initMap"
