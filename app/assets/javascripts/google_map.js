@@ -71,172 +71,136 @@ function initMap() {
             location_id : marker.id,
           },
           success : function(response) {
-            // var contentString = '<div id="content" style="width:400px;">'+
-            // '<div class="header"><h1 style="color:blue;font-size: 20px">'+response['station_info'].sname+
-            // '<i class="fa fa-star" style="float:right;font-size: 26px;color:black"></i></h1>'+
-            // '<p style="color:blue">'+response['station_info'].addr+'</p></div>'+
-            // '<div class="infos_img"><div class="car_info" style="display: inline-block;">'+
-            // '<p style="display:inline-block;font-size: 80px"><i class="fa fa-smile-o"></i></p>'+
-            // '<p id="font_big"style="display:inline-block;font-size: 24px">'+'<span id="available_bike">'+response['predict_info'][0].count+'</span>'+'<span style="font-size: 20px">/'+response['station_info'].total+'台<span></p></div>'+
-            // '<div class="weather_info" style="display: inline-block;">'+
-            // '<p style="display:inline-block;font-size: 80px"><i class="fa fa-tint"></i></p>'+
-            // '<p style="display:inline-block;font-size: 30px;">23°C</p></div>'+
-            // '</div><input type="text" id="range"/>'+'<ul class="tab"><li><div class="mins">分鐘</div></li><li><div class="hurs">小時</div></li></ul>'+
-            // '</div>';
-            // infowindow.close();
-            // infowindow = new google.maps.InfoWindow({
-            //   content: contentString
-            // });
-            // infowindow.open(map, marker);
-            
-            //range slider
-              // $("#range").ionRangeSlider({
-              //     grid: true,
-              //     min: 0,
-              //     max: 100,
-              //     from: 0,
-              //     step: 5,
-              //     prefix: "After ",
-              //     postfix: " minutes",
-              // });
-
-              //initialize
-
-              $('#content').show();
-              $('#location_name').text(response['station_info'].sname);
-              $('#location_addr').text(response['station_info'].addr);
-              $('.total_bike').text("/"+response['station_info'].total+"台");
-              $('.avaliable_bike').text(response['weather'].count);
-              $('.weather_value').text(response['weather'].temp+"°C");
-              switch(response['weather'].status) {
-                case 'Overcast':
-                case 'Mostly Cloudy':
-                    $('.weather_img > img').attr('src' , $('#image_path').data('mostly_cloudy'))
-                break;
-                case 'Heavy Rain Showers':
-                case 'Light Drizzle':
-                case 'Rain':
-                case 'Rain Showers':
-                case 'Light Rain Showers':
-                  $('.weather_img > img').attr('src' , $('#image_path').data('raining'))
-                break;
-                case 'Partly Cloudy':
-                case 'Scattered Clouds':
-                  $('.weather_img > img').attr('src' , $('#image_path').data('scatterd_clouds'))
-                break;
-                case 'Light Thunderstorms and Rain':
-                case 'Heavy Thunderstorms and Rain':
-                case 'Thunderstorm':
-                case 'Thunderstorms and Rain':
-                  $('.weather_img > img').attr('src' , $('#image_path').data('thunderstorm'))
-                break;
-                default:
-                    $('.weather_img > img').attr('src' , $('#image_path').data('blank_sunny'))
-              }
-              if(response['weather'].count < 5){
-                  $('.bike_img > img').attr('src',$('#image_path').data('bad'))
-                }else if(response['weather'].count < 15){
-                  $('.bike_img > img').attr('src',$('#image_path').data('mid'))
-                }else{
-                  $('.bike_img > img').attr('src',$('#image_path').data('good'))
-                } 
+            var time_index = 0;
+            $('#content').show();
+            $('#location_name').text(response['station_info'].sname);
+            $('#location_addr').text(response['station_info'].addr);
+            $('.total_bike').text("/"+response['station_info'].total+"台");
+            $('.avaliable_bike').text(response['weather'].count);
+            $('.weather_value').text(response['weather'].temp+"°C");
+            switch(response['weather'].status) {
+              case 'Overcast':
+              case 'Mostly Cloudy':
+                  $('.weather_img > img').attr('src' , $('#image_path').data('mostly_cloudy'))
+              break;
+              case 'Heavy Rain Showers':
+              case 'Light Drizzle':
+              case 'Rain':
+              case 'Rain Showers':
+              case 'Light Rain Showers':
+                $('.weather_img > img').attr('src' , $('#image_path').data('raining'))
+              break;
+              case 'Partly Cloudy':
+              case 'Scattered Clouds':
+                $('.weather_img > img').attr('src' , $('#image_path').data('scatterd_clouds'))
+              break;
+              case 'Light Thunderstorms and Rain':
+              case 'Heavy Thunderstorms and Rain':
+              case 'Thunderstorm':
+              case 'Thunderstorms and Rain':
+                $('.weather_img > img').attr('src' , $('#image_path').data('thunderstorm'))
+              break;
+              default:
+                  $('.weather_img > img').attr('src' , $('#image_path').data('blank_sunny'))
+            }
+            if(response['weather'].count < 5){
+                $('.bike_img > img').attr('src',$('#image_path').data('bad'))
+              }else if(response['weather'].count < 15){
+                $('.bike_img > img').attr('src',$('#image_path').data('mid'))
+              }else{
+                $('.bike_img > img').attr('src',$('#image_path').data('good'))
+            } 
 
               
 
-              for (var j = 0; j < markers.length; j++) {
-                markers[j].setIcon(unclick_icon);
-              }
-              marker.setIcon(clicked_icon);
-              // console.log($("#range").data("clock"));
-              //if($("#range").data("clock") == "mins"){  
+            for (var j = 0; j < markers.length; j++) {
+              markers[j].setIcon(unclick_icon);
+            }
+            marker.setIcon(clicked_icon);
+            $('#range').data('clock','mins');
+              var slider = $("#range").data("ionRangeSlider");
+                slider.update({
+                  min: 0,
+                  max: 60,
+                  postfix: " 分鐘後",
+                  from: 0,
+                  step: 5,
+                });
+            $("#range").off("change");
+            $("#range").on("change", function () {
+              from = $(this).data("from");
+              $('.avaliable_bike').text(response['predict_info'][(from/5)].count);
+              $('.datetime').text(moment(response['time_now']).add(from,'minutes').calendar());                  
+              if(response['predict_info'][(from/5)].count < 5){
+                $('.bike_img > img').attr('src',$('#image_path').data('bad'))
+              }else if(response['predict_info'][(from/5)].count < 15){
+                $('.bike_img > img').attr('src',$('#image_path').data('mid'))
+              }else{
+                $('.bike_img > img').attr('src',$('#image_path').data('good'))
+              } 
+            }); 
+            
+
+            //切換小時分鐘
+            $('.mins').on('click',function(){
+              time_index = $('#range').data("from")*12;
+              console.log(time_index);
+              $('.hurs').removeClass('tabe_active');
+              $(this).addClass('tabe_active');
               $('#range').data('clock','mins');
-                var slider = $("#range").data("ionRangeSlider");
-                  slider.update({
-                    min: 0,
-                    max: 60,
-                    postfix: " 分鐘後",
-                    from: 0,
-                    step: 5,
-                  });
+              var slider = $("#range").data("ionRangeSlider");
+                slider.update({
+                  min: 0,
+                  max: 60,
+                  postfix: " 分鐘後",
+                  from: 0,
+                  step: 5,
+                });
               $("#range").off("change");
+              $('.datetime').text(moment(response['time_now']).add(time_index/12,'hours').add(from,'minutes').calendar());                  
               $("#range").on("change", function () {
                 from = $(this).data("from");
-                $('.avaliable_bike').text(response['predict_info'][(from/5)].count);
-                $('.datetime').text(moment(response['time_now']).add(from,'minutes').calendar());                  
-                if(response['predict_info'][(from/5)].count < 5){
+                $('.avaliable_bike').text(response['predict_info'][time_index+(from/5)].count);
+                $('.datetime').text(moment(response['time_now']).add(time_index/12,'hours').add(from,'minutes').calendar());                  
+                if(response['predict_info'][time_index+(from/5)].count < 5){
                   $('.bike_img > img').attr('src',$('#image_path').data('bad'))
-                }else if(response['predict_info'][(from/5)].count < 15){
+                }else if(response['predict_info'][time_index+(from/5)].count < 15){
                   $('.bike_img > img').attr('src',$('#image_path').data('mid'))
                 }else{
                   $('.bike_img > img').attr('src',$('#image_path').data('good'))
                 } 
-              }); 
-              // }else{
-              //   $("#range").on("change", function () {
-              //       console.log('in 222');
-              //       from = $(this).data("from");
-              //       $('.avaliable_bike').text(response['predict_info'][(from*12)].count)
-              //   });
-              // }
-
-              //切換小時分鐘
-              $('.mins').on('click',function(){
-                // $('.datetime').text(moment(response['time_now']).add(from,'hours').calendar());
-                $('.hurs').removeClass('tabe_active');
-                $(this).addClass('tabe_active');
-                $('#range').data('clock','mins');
-                var slider = $("#range").data("ionRangeSlider");
-                  slider.update({
-                    min: 0,
-                    max: 60,
-                    postfix: " 分鐘後",
-                    from: 0,
-                    step: 5,
-                  });
-                $("#range").off("change");
-                $("#range").on("change", function () {
+              });
+            });
+            $('.hurs').on('click',function(){
+              time_index = $('#range').data("from")/5;
+              console.log(time_index);
+              $('.mins').removeClass('tabe_active');
+              $(this).addClass('tabe_active');
+              $('#range').data('clock','hour');
+              var slider = $("#range").data("ionRangeSlider");
+              slider.update({
+                min: 0,
+                max: 22,
+                postfix: " 小時後",
+                from: 0,
+                step: 1
+              });
+              $("#range").off("change");
+              $("#range").on("change", function () {
                   from = $(this).data("from");
-                  $('.avaliable_bike').text(response['predict_info'][(from/5)].count);
-                  $('.datetime').text(moment(response['time_now']).add(from,'minutes').calendar());                  
-                  if(response['predict_info'][(from/5)].count < 5){
+                  $('.avaliable_bike').text(response['predict_info'][time_index+(from*12)].count)
+                  $('.datetime').text(moment(response['time_now']).add(from,'hours').calendar());
+                  if(response['predict_info'][time_index+(from*12)].count < 5){
                     $('.bike_img > img').attr('src',$('#image_path').data('bad'))
-                  }else if(response['predict_info'][(from/5)].count < 15){
+                  }else if(response['predict_info'][time_index+(from*12)].count < 15){
                     $('.bike_img > img').attr('src',$('#image_path').data('mid'))
                   }else{
                     $('.bike_img > img').attr('src',$('#image_path').data('good'))
                   } 
-                });
               });
-              $('.hurs').on('click',function(){
-                // $('.datetime').text(moment(response['time_now']).add(from,'hours').calendar());
-                $('.mins').removeClass('tabe_active');
-                $(this).addClass('tabe_active');
-                $('#range').data('clock','hour');
-                var slider = $("#range").data("ionRangeSlider");
-                slider.update({
-                  min: 0,
-                  max: 23,
-                  postfix: " 小時後",
-                  from: 0,
-                  step: 1
-                });
-                $("#range").off("change");
-                $("#range").on("change", function () {
-                    // console.log('in 222');
-                    from = $(this).data("from");
-                    $('.avaliable_bike').text(response['predict_info'][(from*12)].count)
-                    $('.datetime').text(moment(response['time_now']).add(from,'hours').calendar());
-                    if(response['predict_info'][(from*12)].count < 5){
-                      $('.bike_img > img').attr('src',$('#image_path').data('bad'))
-                    }else if(response['predict_info'][(from*12)].count < 15){
-                      $('.bike_img > img').attr('src',$('#image_path').data('mid'))
-                    }else{
-                      $('.bike_img > img').attr('src',$('#image_path').data('good'))
-                    } 
-                });
-              });
-            }
-        });
+            });
+          }
+      });
         
        
       }
