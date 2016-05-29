@@ -32,24 +32,24 @@ function initMap() {
 
   var infowindow = new google.maps.InfoWindow();
 
- // if (navigator.geolocation) {
- //    navigator.geolocation.getCurrentPosition(function(position) {
- //      var pos = {
- //        lat: position.coords.latitude,
- //        lng: position.coords.longitude
- //      };
+ if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(function(position) {
+      var pos = {
+        lat: position.coords.latitude,
+        lng: position.coords.longitude
+      };
 
- //      infowindow.setPosition(pos);
- //      infowindow.setContent('Location found.');
- //      map.setCenter(pos);
-      
- //    }, function() {
- //      handleLocationError(true, infowindow, map.getCenter());
- //    });
- //  } else {
- //    // Browser doesn't support Geolocation
- //    handleLocationError(false, infowindow, map.getCenter());
- //  }
+      infowindow.setPosition(pos);
+      infowindow.setContent('Location found.');
+      map.setCenter(pos);
+
+    }, function() {
+      handleLocationError(true, infowindow, map.getCenter());
+    });
+  } else {
+    // Browser doesn't support Geolocation
+    handleLocationError(false, infowindow, map.getCenter());
+  }
 
   var marker , i;
   for(i = 0 ; i < locations.length ; i++){
@@ -190,7 +190,7 @@ function initMap() {
                     min: 0,
                     max: 60,
                     postfix: " 分鐘後",
-                    from: $("#range").data("from"),
+                    from: 0,
                     step: 5,
                   });
                 $("#range").off("change");
@@ -215,14 +215,14 @@ function initMap() {
                 var slider = $("#range").data("ionRangeSlider");
                 slider.update({
                   min: 0,
-                  max: 24,
-                  postfix: " 點",
+                  max: 23,
+                  postfix: " 小時後",
                   from: 0,
                   step: 1
                 });
                 $("#range").off("change");
                 $("#range").on("change", function () {
-                    console.log('in 222');
+                    // console.log('in 222');
                     from = $(this).data("from");
                     $('.avaliable_bike').text(response['predict_info'][(from*12)].count)
                     $('.datetime').text(moment(response['time_now']).add(from,'hours').calendar());
@@ -280,9 +280,9 @@ function initMap() {
 
 
 }
-// function handleLocationError(browserHasGeolocation, infoWindow, pos) {
-//   infoWindow.setPosition(pos);
-//   infoWindow.setContent(browserHasGeolocation ?
-//                         'Error: The Geolocation service failed.' :
-//                         'Error: Your browser doesn\'t support geolocation.');
-// }
+function handleLocationError(browserHasGeolocation, infoWindow, pos) {
+  infoWindow.setPosition(pos);
+  infoWindow.setContent(browserHasGeolocation ?
+                        'Error: The Geolocation service failed.' :
+                        'Error: Your browser doesn\'t support geolocation.');
+}

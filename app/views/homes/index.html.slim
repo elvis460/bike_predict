@@ -1,6 +1,6 @@
 .map-container
   #searchbox
-    spen#menu
+    spen#menu.controls
       i.fa.fa-bars
     input#pac-input.controls type="text"
   #map data-locations="#{@locations}" data-clicked="#{image_url('clicked_icon1')}" data-unclick="#{image_url('unclick_icon1')}" data-cluster="#{image_url('cluster')}"
@@ -27,7 +27,8 @@
   .header
     h1
       span#location_name location.sname
-      =image_tag('star_empty',size:'50x50',:class => 'star')
+      .star x
+      //=image_tag('star_empty',size:'50x50',:class => 'star')
     p#location_addr location.addr
   .infos_img
     .bike_info

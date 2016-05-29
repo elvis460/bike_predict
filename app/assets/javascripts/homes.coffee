@@ -7,9 +7,9 @@
 #= require moment
 
 $ ->  
-  $('#menu').click ->
-    $('.sidebar').toggleClass('show_side_bar');
-    $('#map').toggleClass('shift_map');
+  #$('#menu').click ->
+    #$('.sidebar').toggleClass('show_side_bar');
+    #$('#map').toggleClass('shift_map');
   $("#range").ionRangeSlider({
     grid: true,
     min: 0,
@@ -18,3 +18,5 @@ $ ->
     step: 5,
     postfix: " 分鐘後",
 	});
+  $('.star').click ->
+    $('#content').hide();

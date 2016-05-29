@@ -1,18 +1,28 @@
 namespace :events do
+  
   task update_weather: :environment do
     require 'rest-client'
     response = RestClient.get 'http://chenhon.twbbs.org:7000/weather'
-    Weather.destroy_all
+    weathers = []
     weather = JSON.parse(response)
     weather.each do |result|
-      Weather.create(station_info_id: result['sno'],temp: result['Temp'] , status: result['Weather'] ,count: result['available'])
+      weathers << Weather.new(station_info_id: result['sno'],temp: result['Temp'] , status: result['Weather'] ,count: result['available'])
     end
+    Weather.delete_all
+    Weather.import weathers
   end
+
   task update_predict: :environment do
     require 'rest-client'
-    response = RestClient.post 'http://im.kayac.com/api/post/elvis' ,message: '早安，村民！準備迎接這美好的一天了嗎？', content_type: 'application/x-www-form-urlencoded' 
-    puts "#{response},#{Time.now}"
+    response = RestClient.get 'http://chenhon.twbbs.org:7000/data'
+    predict_json = JSON.parse(response)
+    predicts = []
+    predict_json.each do |data|
+      data['result'].each do |result|
+        predicts << PredictInfo.new(time: result['lastUpdate'] , count: result['available'] , station_info_id: data['id'])
+      end
+    end
+    PredictInfo.delete_all
+    PredictInfo.import predicts
   end
 end
-
-

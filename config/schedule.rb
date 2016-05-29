@@ -24,3 +24,6 @@ set :output, "log/cron_log.log"
 every 5.minutes do
   rake "events:update_weather"
 end
+every 1.hours do
+  rake "events:update_predict"
+end
