@@ -1,24 +1,10 @@
-# README
+# Predict Ubike in Taipei City
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+This application is for predicting the Ubike in each stations in Taipei City. 
 
-Things you may want to cover:
+It could predict the amount of Ubikes in each stations in next 24 hours, and in minimum you could check the number of bikes in 5 minutes later.
 
-* Ruby version
+This application have RWD, so you could use it on your mobile phone.
 
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+* Ruby on Rails - 5.0.0.rc
+* Use Slim and SCSS in Front-end View
